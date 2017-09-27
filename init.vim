@@ -5,6 +5,27 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
+" Rebind <Leader> key
+" I like to have it here becuase it is easier to reach than the default and
+" it is next to ``m`` and ``n`` which I use for navigating between tabs.
+let mapleader = ","
+
+" easier moving between tabs
+map <Leader>n <esc>:tabprevious<CR>
+map <Leader>m <esc>:tabnext<CR>
+map <Leader>t <esc>:tabe<CR>
+map <Leader>c <esc>:make -f Makefile.sami tests <bar> <CR>:cope<CR>
+map <Leader>d <esc>:make -f Makefile.sami main <bar> <CR>:cope<CR>
+map <Leader><c-p> <esc>:CtrlPBuffer<CR>
+map <Leader>z <esc>:YcmCompleter GoToDeclaration<CR>
+" allow hidden buffers
+set hidden
+
+" copy current file
+nmap <Leader>ks :let @+=expand("%")<CR>
+nmap <Leader>kl :let @+=expand("%:p")<CR>
+
+
 " Required:
 set runtimepath+=~/.nvim/bundle/neobundle.vim/
 
@@ -21,34 +42,86 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'https://github.com/easymotion/vim-easymotion'
 NeoBundle 'https://github.com/kien/ctrlp.vim'
 NeoBundle 'https://github.com/Valloric/YouCompleteMe'
-NeoBundle 'https://github.com/terryma/vim-multiple-cursors'
+NeoBundle 'https://github.com/eugen0329/vim-esearch'
+NeoBundle 'https://github.com/scrooloose/nerdtree'
+NeoBundle 'https://github.com/airblade/vim-gitgutter'
 NeoBundle 'https://github.com/tpope/vim-obsession'
+" NeoBundle 'https://github.com/jeetsukumaran/vim-buffergator'
+NeoBundle 'https://github.com/ntpeters/vim-better-whitespace'
+NeoBundle 'https://github.com/terryma/vim-multiple-cursors'
 NeoBundle 'https://github.com/tpope/vim-fugitive'
+NeoBundle 'https://github.com/SirVer/ultisnips'
+NeoBundle 'https://github.com/honza/vim-snippets'
+NeoBundle 'https://github.com/brookhong/cscope.vim'
 call neobundle#end()
 
-" Required:
-filetype plugin indent on
+" Cscope
+nnoremap <leader>ca :call CscopeFindInteractive(expand('<cword>'))<CR>
+nnoremap <leader>l :call ToggleLocationList()<CR>
+
+" Some optional key mappings to search directly.
+
+" s: Find this C symbol
+nnoremap  <leader>cs :call CscopeFind('s', expand('<cword>'))<CR>
+" g: Find this definition
+nnoremap  <leader>cg :call CscopeFind('g', expand('<cword>'))<CR>
+" d: Find functions called by this function
+nnoremap  <leader>cd :call CscopeFind('d', expand('<cword>'))<CR>
+" c: Find functions calling this function
+nnoremap  <leader>cc :call CscopeFind('c', expand('<cword>'))<CR>
+" t: Find this text string
+nnoremap  <leader>ct :call CscopeFind('t', expand('<cword>'))<CR>
+" e: Find this egrep pattern
+nnoremap  <leader>ce :call CscopeFind('e', expand('<cword>'))<CR>
+" f: Find this file
+nnoremap  <leader>cf :call CscopeFind('f', expand('<cword>'))<CR>
+" i: Find files #including this file
+nnoremap  <leader>ci :call CscopeFind('i', expand('<cword>'))<CR>
+
+
+" Ultisnips
+
+" Snippets are separated from the engine. Add this if you want them:
+" Plugin 'honza/vim-snippets'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
-" :set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+autocmd VimEnter * ToggleStripWhitespaceOnSave
 
-" Rebind <Leader> key
-" I like to have it here becuase it is easier to reach than the default and
-" it is next to ``m`` and ``n`` which I use for navigating between tabs.
-let mapleader = ","
+" Automatic reloading of .vimrc
+"" autocmd! bufwritepost .vimrc source %
 
-" Default mapping
+" Multiple cursors mapping
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-m>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
+let g:multi_cursor_exit_from_insert_mode = 0
+let g:multi_cursor_exit_from_visual_mode = 0
 
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
+
+let g:ctrlp_follow_symlinks = 1
+
+let g:esearch = {
+  \ 'adapter':    'ag',
+  \ 'backend':    'nvim',
+  \ 'out':        'qflist',
+  \ 'batch_size': 1000,
+  \ 'use':        ['visual', 'hlsearch', 'last'],
+  \}
 
 set pastetoggle=<F2>
 set clipboard=unnamed
@@ -57,6 +130,8 @@ set clipboard=unnamed
 " Mouse and backspace
 set mouse=a  " on OSX press ALT and click
 set bs=2     " make backspace behave like normal again
+
+" :set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
 
 " Bind nohl
@@ -85,11 +160,10 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
+"Jump more easily in Quick fix
+nmap <Leader>w :cn<CR>
+nmap <Leader>q :cp<CR>
 
-" easier moving between tabs
-map <Leader>n <esc>:tabprevious<CR>
-map <Leader>m <esc>:tabnext<CR>
-map <Leader>t <esc>:tabe<CR>
 
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
@@ -167,11 +241,16 @@ set noswapfile
 " YouCompleteMe
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
-" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 "Do not ask when starting vim
 let g:ycm_confirm_extra_conf = 0
 let g:syntastic_always_populate_loc_list = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 
+"Autoreload files when changed externally
+set autoread
+autocmd FocusGained * silent! checktime
 
+" Go to definition in new tab
+nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 
