@@ -109,6 +109,16 @@ let g:multi_cursor_quit_key='<Esc>'
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:multi_cursor_exit_from_visual_mode = 0
 
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+   let g:ycm_auto_trigger = 0
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+   let g:ycm_auto_trigger = 1
+endfunction
+
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
