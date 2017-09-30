@@ -11,20 +11,20 @@ endif
 let mapleader = ","
 
 " easier moving between tabs
-map <Leader>n <esc>:tabprevious<CR>
-map <Leader>m <esc>:tabnext<CR>
-map <Leader>t <esc>:tabe<CR>
-map <Leader>c <esc>:make -f Makefile.sami tests <bar> <CR>:cope<CR>
-map <Leader>d <esc>:make -f Makefile.sami main <bar> <CR>:cope<CR>
-map <Leader><c-p> <esc>:Niffler -vcs .<CR>
-map <c-p> <esc>:Niffler -vcs<CR>
-map <Leader>z <esc>:YcmCompleter GoToDeclaration<CR>
+noremap <Leader>n <esc>:tabprevious<CR>
+noremap <Leader>m <esc>:tabnext<CR>
+noremap <Leader>t <esc>:tabe<CR>
+noremap <Leader>c <esc>:make -f Makefile.sami tests <bar> <CR>:cope<CR>
+noremap <Leader>d <esc>:make -f Makefile.sami main <bar> <CR>:cope<CR>
+noremap <Leader><c-p> <esc>:Niffler -vcs .<CR>
+noremap <c-p> <esc>:Niffler -vcs<CR>
+noremap <Leader>z <esc>:YcmCompleter GoToDeclaration<CR>
 " allow hidden buffers
 set hidden
 
 " copy current file
-nmap <Leader>ks :let @+=expand("%")<CR>
-nmap <Leader>kl :let @+=expand("%:p")<CR>
+nnoremap <Leader>ks :let @+=expand("%")<CR>
+nnoremap <Leader>kl :let @+=expand("%:p")<CR>
 
 
 " Required:
@@ -164,14 +164,14 @@ noremap <Leader>E :qa!<CR>   " Quit all windows
 
 " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
 " Every unnecessary keystroke that can be saved is good for your health :)
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
+noremap <c-j> <c-w>j
+noremap <c-k> <c-w>k
+noremap <c-l> <c-w>l
+noremap <c-h> <c-w>h
 
 "Jump more easily in Quick fix
-nmap <Leader>w :cn<CR>
-nmap <Leader>q :cp<CR>
+nnoremap <Leader>w :cn<CR>
+nnoremap <Leader>q :cp<CR>
 
 
 nnoremap <leader>sv :source $MYVIMRC<CR>
