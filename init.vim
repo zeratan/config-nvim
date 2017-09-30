@@ -216,11 +216,6 @@ set colorcolumn=120
 highlight ColorColumn ctermbg=233p
 
 
-" easier formatting of paragraphs
-vmap Q gq
-nmap Q gqap
-
-
 " Useful settings
 set history=700
 set undolevels=700
