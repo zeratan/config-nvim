@@ -16,7 +16,8 @@ map <Leader>m <esc>:tabnext<CR>
 map <Leader>t <esc>:tabe<CR>
 map <Leader>c <esc>:make -f Makefile.sami tests <bar> <CR>:cope<CR>
 map <Leader>d <esc>:make -f Makefile.sami main <bar> <CR>:cope<CR>
-map <Leader><c-p> <esc>:CtrlPBuffer<CR>
+map <Leader><c-p> <esc>:Niffler -vcs .<CR>
+map <c-p> <esc>:Niffler -vcs<CR>
 map <Leader>z <esc>:YcmCompleter GoToDeclaration<CR>
 " allow hidden buffers
 set hidden
@@ -40,7 +41,6 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle 'https://github.com/easymotion/vim-easymotion'
-NeoBundle 'https://github.com/kien/ctrlp.vim'
 NeoBundle 'https://github.com/Valloric/YouCompleteMe'
 NeoBundle 'https://github.com/eugen0329/vim-esearch'
 NeoBundle 'https://github.com/scrooloose/nerdtree'
@@ -53,6 +53,7 @@ NeoBundle 'https://github.com/tpope/vim-fugitive'
 NeoBundle 'https://github.com/SirVer/ultisnips'
 NeoBundle 'https://github.com/honza/vim-snippets'
 NeoBundle 'https://github.com/brookhong/cscope.vim'
+NeoBundle 'https://github.com/pgdouyon/vim-niffler'
 call neobundle#end()
 
 " Cscope
@@ -122,8 +123,6 @@ endfunction
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
-
-let g:ctrlp_follow_symlinks = 1
 
 let g:esearch = {
   \ 'adapter':    'ag',
