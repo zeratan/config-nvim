@@ -14,11 +14,21 @@ let mapleader = ","
 noremap <Leader>n <esc>:tabprevious<CR>
 noremap <Leader>m <esc>:tabnext<CR>
 noremap <Leader>t <esc>:tabe<CR>
+
+" Make and cope
 noremap <Leader>c <esc>:make -f Makefile.sami tests <bar> <CR>:cope<CR>
 noremap <Leader>d <esc>:make -f Makefile.sami main <bar> <CR>:cope<CR>
+
+" Niffler
 noremap <Leader><c-p> <esc>:Niffler -vcs .<CR>
 noremap <c-p> <esc>:Niffler -vcs<CR>
 noremap <Leader>z <esc>:YcmCompleter GoToDeclaration<CR>
+
+" Editing init.vim
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+
+
 " allow hidden buffers
 set hidden
 
@@ -173,12 +183,14 @@ noremap <c-h> <c-w>h
 nnoremap <Leader>w :cn<CR>
 nnoremap <Leader>q :cp<CR>
 
+# Surround world with "
+:nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 
-nnoremap <leader>sv :source $MYVIMRC<CR>
+# ESC simulation
+:inoremap jk <esc>
 
 " map sort function to a key
 vnoremap <Leader>s :sort<CR>
-
 
 " easier moving of code blocks
 " Try to go into visual mode (v), thenselect several lines of code here and
