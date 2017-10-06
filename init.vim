@@ -30,6 +30,8 @@ let g:niffler_ignore_extensions = [".gcno*", ".gcda*", ".o", "*.html"]
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
 
+" expand current file path
+map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " allow hidden buffers
 set hidden
