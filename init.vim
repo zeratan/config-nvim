@@ -40,6 +40,7 @@ set hidden
 nnoremap <Leader>ks :let @+=expand("%")<CR>
 nnoremap <Leader>kl :let @+=expand("%:p")<CR>
 
+:set wildignore+=build/**,tags
 
 " Required:
 set runtimepath+=~/.nvim/bundle/neobundle.vim/
