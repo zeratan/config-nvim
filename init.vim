@@ -69,6 +69,7 @@ NeoBundle 'https://github.com/SirVer/ultisnips'
 NeoBundle 'https://github.com/honza/vim-snippets'
 NeoBundle 'https://github.com/brookhong/cscope.vim'
 NeoBundle 'https://github.com/pgdouyon/vim-niffler'
+NeoBundle 'https://github.com/ericcurtin/CurtineIncSw.vim'
 call neobundle#end()
 
 " Cscope
