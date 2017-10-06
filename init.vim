@@ -75,6 +75,7 @@ call neobundle#end()
 " Cscope
 nnoremap <leader>ca :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
+let g:cscope_silent = 1
 
 " Some optional key mappings to search directly.
 
