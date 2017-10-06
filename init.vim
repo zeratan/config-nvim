@@ -173,12 +173,6 @@ set bs=2     " make backspace behave like normal again
 "" vnoremap <C-Z> <C-C>:update<CR>
 "" inoremap <C-Z> <C-O>:update<CR>
 
-
-" Quick quit command
-noremap <Leader>e :quit<CR>  " Quit current window
-noremap <Leader>E :qa!<CR>   " Quit all windows
-
-
 " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
 " Every unnecessary keystroke that can be saved is good for your health :)
 noremap <c-j> <c-w>j
