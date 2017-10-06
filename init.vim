@@ -16,8 +16,8 @@ noremap <Leader>m <esc>:tabnext<CR>
 noremap <Leader>t <esc>:tabe<CR>
 
 " Make and cope
-noremap <Leader>c <esc>:make -f Makefile.sami tests <bar> <CR>:cope<CR>
-noremap <Leader>d <esc>:make -f Makefile.sami main <bar> <CR>:cope<CR>
+noremap <Leader>c <esc>:wa<CR>:make -f Makefile.user tests <bar> <CR>:cope<CR>
+noremap <Leader>d <esc>:wa<CR>:make -f Makefile.user main <bar> <CR>:cope<CR>
 
 " Niffler
 noremap <Leader><c-p> <esc>:Niffler -vcs .<CR>
