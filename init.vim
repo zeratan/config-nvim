@@ -183,10 +183,10 @@ noremap <c-h> <c-w>h
 nnoremap <Leader>w :cn<CR>
 nnoremap <Leader>q :cp<CR>
 
-# Surround world with "
+" Surround world with "
 :nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 
-# ESC simulation
+" ESC simulation
 :inoremap jk <esc>
 
 " map sort function to a key
