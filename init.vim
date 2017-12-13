@@ -265,6 +265,9 @@ let g:ycm_confirm_extra_conf = 0
 let g:syntastic_always_populate_loc_list = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 
+" Map cuda files to c++ so that Ycm can parse
+autocmd BufNewFile,BufRead *.cu set filetype=cpp
+
 "Autoreload files when changed externally
 set autoread
 autocmd FocusGained * silent! checktime
