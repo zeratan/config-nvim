@@ -37,6 +37,7 @@ noremap <Leader><c-o> <esc>:NifflerMRU<CR>
 noremap <c-p> <esc>:Niffler -vcs<CR>
 noremap <Leader>z <esc>:YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:niffler_ignore_extensions = [".gcno*", ".gcda*", ".o", "*.html"]
+let g:niffler_ignore_dirs = ["./build/*"]
 
 " Editing init.vim
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
