@@ -16,8 +16,20 @@ noremap <Leader>m <esc>:tabnext<CR>
 noremap <Leader>t <esc>:tabe<CR>
 
 " Make and cope
-noremap <Leader>c <esc>:wa<CR>:make -f Makefile.user tests <bar> <CR>:cope<CR>
-noremap <Leader>d <esc>:wa<CR>:make -f Makefile.user main <bar> <CR>:cope<CR>
+
+function! MakeAndCopeConditional(target)
+    silent !make "-f Makefile.user " + a:target
+    if v:shell_error
+        cope
+    else
+        echom "Compile succeeded"
+    endif
+endfunction
+
+" noremap <Leader>c <esc>:wa<CR> :call MakeAndCopeConditional("tests")<cr>
+" noremap <Leader>d <esc>:wa<CR> :call MakeAndCopeConditional("main")<cr>
+noremap <Leader>c <esc>:wa<CR>:make -f Makefile.user tests <bar> <CR>:cope<CR>G
+noremap <Leader>d <esc>:wa<CR>:make -f Makefile.user main <bar> <CR>:cope<CR>G
 
 " Niffler
 noremap <Leader><c-p> <esc>:NifflerBuffer<CR>
