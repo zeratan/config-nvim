@@ -280,4 +280,4 @@ function! Formatonsave()
   let l:formatdiff = 1
   pyf /usr/share/clang/clang-format.py
 endfunction
-autocmd BufWritePre *.h,*.c,*.cc,*.cpp call Formatonsave()
+autocmd BufWritePre *.h,*.c,*.cu,*.cc,*.cpp call Formatonsave()
