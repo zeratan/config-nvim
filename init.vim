@@ -313,12 +313,6 @@ function! Formatonsave()
 endfunction
 autocmd BufWritePre *.h,*.c,*.cu,*.cc,*.cpp call Formatonsave()
 
-let g:ackprg = 'ag --vimgrep --smart-case'
-cnoreabbrev ag Ack
-cnoreabbrev aG Ack
-cnoreabbrev Ag Ack
-cnoreabbrev AG Ack
-
 " Find file in current directory and edit it.
 function! Find(name)
   let l:list=system("find -L . -name '".a:name."' | perl -ne 'print \"$.\\t$_\"'")
@@ -406,4 +400,13 @@ fun! FindChar(back, inclusive, exclusive)
     endif
   endif
 endfun
+
+let g:ackprg = 'ag --vimgrep --smart-case'
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
+
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
 
