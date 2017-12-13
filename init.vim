@@ -33,7 +33,7 @@ noremap <Leader>d <esc>:wa<CR>:make -f Makefile.user main <bar> <CR>:cope<CR>G
 
 " Niffler
 noremap <Leader><c-p> <esc>:NifflerBuffer<CR>
-noremap <m-p> <esc>:NifflerMRU<CR>
+noremap <Leader><c-o> <esc>:NifflerMRU<CR>
 noremap <c-p> <esc>:Niffler -vcs<CR>
 noremap <Leader>z <esc>:YcmCompleter GoToDeclaration<CR>
 let g:niffler_ignore_extensions = [".gcno*", ".gcda*", ".o", "*.html"]
