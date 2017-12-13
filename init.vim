@@ -49,9 +49,10 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " allow hidden buffers
 set hidden
 
-" copy current file
+" Copy file name to clipboard
 nnoremap <Leader>ks :let @+=expand("%")<CR>
-nnoremap <Leader>kl :let @+=expand("%:p")<CR>
+" copy current file path to clipboard
+nnoremap <Leader>kl :let @*=expand("%:p")<CR>
 
 :set wildignore+=build/**,tags
 
