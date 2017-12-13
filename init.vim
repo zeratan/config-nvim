@@ -119,7 +119,6 @@ nnoremap  <leader>cf :call CscopeFind('f', expand('<cword>'))<CR>
 " i: Find files #including this file
 nnoremap  <leader>ci :call CscopeFind('i', expand('<cword>'))<CR>
 
-
 " Ultisnips
 
 " Snippets are separated from the engine. Add this if you want them:
