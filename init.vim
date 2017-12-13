@@ -175,6 +175,16 @@ let g:esearch = {
   \ 'use':        ['visual', 'hlsearch', 'last'],
   \}
 
+fu! EsearchInFiles(argv) abort
+  let original = g:esearch#adapter#ag#options
+  let g:esearch#adapter#ag#options = input('Search options: ')
+  call esearch#init(a:argv)
+  let g:esearch#adapter#ag#options = original
+endfu
+
+" replace these mapping with the ones you prefer
+noremap  <silent><leader>ft :<C-u>call EsearchInFiles({})<CR>
+xnoremap <silent><leader>ft :<C-u>call EsearchInFiles({'visualmode': 1})<CR>
 
 " Mouse and backspace
 set mouse=a  " on OSX press ALT and click
