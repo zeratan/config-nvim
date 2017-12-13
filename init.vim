@@ -312,3 +312,98 @@ function! Formatonsave()
   pyf /usr/share/clang/clang-format.py
 endfunction
 autocmd BufWritePre *.h,*.c,*.cu,*.cc,*.cpp call Formatonsave()
+
+let g:ackprg = 'ag --vimgrep --smart-case'
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
+
+" Find file in current directory and edit it.
+function! Find(name)
+  let l:list=system("find -L . -name '".a:name."' | perl -ne 'print \"$.\\t$_\"'")
+" replace above line with below one for gvim on windows
+" let l:list=system("find . -name ".a:name." | perl -ne \"print qq{$.\\t$_}\"")
+  let l:num=strlen(substitute(l:list, "[^\n]", "", "g"))
+  if l:num < 1
+    echo "'".a:name."' not found"
+    return
+  endif
+  if l:num != 1
+    echo l:list
+    let l:input=input("Which ? (CR=nothing)\n")
+    if strlen(l:input)==0
+      return
+    endif
+    if strlen(substitute(l:input, "[0-9]", "", "g"))>0
+      echo "Not a number"
+      return
+    endif
+    if l:input<1 || l:input>l:num
+      echo "Out of range"
+      return
+    endif
+    let l:line=matchstr("\n".l:list, "\n".l:input."\t[^\n]*")
+  else
+    let l:line=l:list
+  endif
+  let l:line=substitute(l:line, "^[^\t]*\t./", "", "")
+  execute ":e ".l:line
+endfunction
+command! -nargs=1 Find :call Find("<args>")
+
+function! GotoJump()
+  jumps
+  let j = input("Please select your jump: ")
+  if j != ''
+    let pattern = '\v\c^\+'
+    if j =~ pattern
+      let j = substitute(j, pattern, '', 'g')
+      execute "normal " . j . "\<c-i>"
+    else
+      execute "normal " . j . "\<c-o>"
+    endif
+  endif
+endfunction
+
+nmap <Leader>j :call GotoJump()<CR>
+
+" http://vim.wikia.com/wiki/Search_for_visually_selected_text
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+"Makes f and t work across multiple lines
+nmap <silent> f :call FindChar(0, 0, 0)<cr>
+omap <silent> f :call FindChar(0, 1, 0)<cr>
+nmap <silent> F :call FindChar(1, 0, 0)<cr>
+omap <silent> F :call FindChar(1, 1, 0)<cr>
+nmap <silent> t :call FindChar(0, 0, 1)<cr>
+omap <silent> t :call FindChar(0, 0, 0)<cr>
+nmap <silent> T :call FindChar(1, 0, 1)<cr>
+omap <silent> T :call FindChar(1, 0, 0)<cr>
+
+"Functions
+fun! FindChar(back, inclusive, exclusive)
+  let flag = 'W'
+  if a:back
+    let flag = 'Wb'
+  endif
+  if search('\V' . nr2char(getchar()), flag)
+    if a:inclusive
+      norm! l
+    endif
+    if a:exclusive
+      norm! h
+    endif
+  endif
+endfun
+
