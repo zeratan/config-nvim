@@ -86,6 +86,12 @@ NeoBundle 'https://github.com/honza/vim-snippets'
 NeoBundle 'https://github.com/brookhong/cscope.vim'
 NeoBundle 'https://github.com/pgdouyon/vim-niffler'
 NeoBundle 'https://github.com/ericcurtin/CurtineIncSw.vim'
+NeoBundle 'https://github.com/mileszs/ack.vim'
+" Slows down. Interferes with key configuration
+" NeoBundle 'https://github.com/vim-scripts/Conque-GDB'
+NeoBundle 'https://github.com/Shougo/vimproc.vim'
+NeoBundle 'https://github.com/idanarye/vim-vebugger'
+NeoBundle 'https://github.com/vim-scripts/Rename'
 NeoBundle 'https://github.com/tpope/vim-surround.git'
 call neobundle#end()
 
