@@ -278,6 +278,6 @@ nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 
 function! Formatonsave()
   let l:formatdiff = 1
-  pyf /usr/share/vim/addons/syntax/clang-format-4.0.py
+  pyf /usr/share/clang/clang-format.py
 endfunction
 autocmd BufWritePre *.h,*.c,*.cc,*.cpp call Formatonsave()
