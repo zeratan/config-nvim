@@ -7,5 +7,6 @@ mkdir -p ~/.config
 cd ~/.config
 ln -s ~/gitrepos/config-nvim nvim
 ```
+Install NeoBundle. The install script makes `~/.vim` directory. Rename this to `~/.nvim`.
 Start ```nvim```.
 Done.
