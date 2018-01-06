@@ -93,6 +93,7 @@ NeoBundle 'https://github.com/Shougo/vimproc.vim'
 NeoBundle 'https://github.com/idanarye/vim-vebugger'
 NeoBundle 'https://github.com/vim-scripts/Rename'
 NeoBundle 'https://github.com/tpope/vim-surround.git'
+NeoBundle 'https://github.com/jremmen/vim-ripgrep'
 call neobundle#end()
 
 " Cscope
@@ -168,7 +169,7 @@ set clipboard=unnamed
 
 " esearch settings
 let g:esearch = {
-  \ 'adapter':    'ag',
+  \ 'adapter':    'rg',
   \ 'backend':    'nvim',
   \ 'out':        'qflist',
   \ 'batch_size': 1000,
@@ -401,7 +402,7 @@ fun! FindChar(back, inclusive, exclusive)
   endif
 endfun
 
-let g:ackprg = 'ag --vimgrep --smart-case'
+let g:ackprg = 'rg --vimgrep'
 cnoreabbrev ag Ack
 cnoreabbrev aG Ack
 cnoreabbrev Ag Ack
