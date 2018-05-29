@@ -15,6 +15,14 @@ noremap <Leader>n <esc>:tabprevious<CR>
 noremap <Leader>m <esc>:tabnext<CR>
 noremap <Leader>t <esc>:tabe<CR>
 
+" Tab navigation like Firefox.
+nnoremap <C-S-tab> :tabprevious<CR>
+nnoremap <C-tab>   :tabnext<CR>
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-S-tab> <Esc>:tabprevious<CR>i
+inoremap <C-tab>   <Esc>:tabnext<CR>i
+inoremap <C-t>     <Esc>:tabnew<CR>
+
 " Make and cope
 
 function! MakeAndCopeConditional(target)
@@ -24,20 +32,30 @@ function! MakeAndCopeConditional(target)
     else
         echom "Compile succeeded"
     endif
+    redraw!
 endfunction
 
 " noremap <Leader>c <esc>:wa<CR> :call MakeAndCopeConditional("tests")<cr>
 " noremap <Leader>d <esc>:wa<CR> :call MakeAndCopeConditional("main")<cr>
-noremap <Leader>c <esc>:wa<CR>:make -f Makefile.user tests <bar> <CR>:cope<CR>G
-noremap <Leader>d <esc>:wa<CR>:make -f Makefile.user main <bar> <CR>:cope<CR>G
+" noremap <Leader>c <esc>:wa<CR>:!cd build-test && make <CR>:cope<CR>G
+" noremap <Leader>d <esc>:wa<CR>:!cd build && make <CR>:cope<CR>G
+noremap <Leader>c <esc>:wa<CR>:make -f Makefile.user tests <bar> <CR>:cope<CR>gg/error:\\|warning:<CR><CR>
+noremap <Leader>d <esc>:wa<CR>:make -f Makefile.user main <bar> <CR>:cope<CR>gg/error:\\|warning:<CR><CR>
+
+"YcmCompleter
+noremap <Leader>z <esc>:YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Niffler
-noremap <Leader><c-p> <esc>:NifflerBuffer<CR>
-noremap <Leader><c-o> <esc>:NifflerMRU<CR>
-noremap <c-p> <esc>:Niffler -vcs<CR>
-noremap <Leader>z <esc>:YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:niffler_ignore_extensions = [".gcno*", ".gcda*", ".o", "*.html"]
-let g:niffler_ignore_dirs = ["./build/*"]
+if 0
+    noremap <Leader><c-p> <esc>:NifflerBuffer<CR>
+    noremap <Leader><c-o> <esc>:NifflerMRU<CR>
+    noremap <c-p> <esc>:Niffler -vcs<CR>
+    let g:niffler_ignore_extensions = [".gcno*", ".gcda*", ".o", "*.html"]
+    let g:niffler_ignore_dirs = ["./build/*"]
+endif
+
+" Unite
+:nnoremap <C-p> [unite]p
 
 " Editing init.vim
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -52,7 +70,7 @@ set hidden
 " Copy file name to clipboard
 nnoremap <Leader>ks :let @+=expand("%")<CR>
 " copy current file path to clipboard
-nnoremap <Leader>kl :let @*=expand("%:p")<CR>
+nnoremap <Leader>kl :let @+=expand("%:p")<CR>
 
 :set wildignore+=build/**,tags
 
@@ -71,7 +89,9 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Note: You don't set neobundle setting in .gvimrc!
 NeoBundle 'https://github.com/easymotion/vim-easymotion'
 NeoBundle 'https://github.com/Valloric/YouCompleteMe'
+" Disable because doesn't search deep enough
 NeoBundle 'https://github.com/eugen0329/vim-esearch'
+NeoBundle 'https://github.com/mileszs/ack.vim'
 NeoBundle 'https://github.com/scrooloose/nerdtree'
 " Disable because it starts to raise errors
 " NeoBundle 'https://github.com/airblade/vim-gitgutter'
@@ -84,16 +104,31 @@ NeoBundle 'https://github.com/tpope/vim-fugitive'
 NeoBundle 'https://github.com/SirVer/ultisnips'
 NeoBundle 'https://github.com/honza/vim-snippets'
 NeoBundle 'https://github.com/brookhong/cscope.vim'
-NeoBundle 'https://github.com/pgdouyon/vim-niffler'
+" NeoBundle 'https://github.com/pgdouyon/vim-niffler'
+NeoBundle 'https://github.com/Shougo/vimproc.vim'
+NeoBundle 'https://github.com/Shougo/unite.vim'
+NeoBundle 'https://github.com/rstacruz/vim-fastunite'
+NeoBundle 'https://github.com/Shougo/neomru.vim'
+NeoBundle 'https://github.com/Shougo/unite-outline'
+NeoBundle 'https://github.com/tsukkee/unite-tag'
 NeoBundle 'https://github.com/ericcurtin/CurtineIncSw.vim'
 NeoBundle 'https://github.com/mileszs/ack.vim'
 " Slows down. Interferes with key configuration
 " NeoBundle 'https://github.com/vim-scripts/Conque-GDB'
 NeoBundle 'https://github.com/Shougo/vimproc.vim'
 NeoBundle 'https://github.com/idanarye/vim-vebugger'
+" Use :Rename <new file name>
 NeoBundle 'https://github.com/vim-scripts/Rename'
+NeoBundle 'https://github.com/vim-scripts/AnsiEsc.vim'
 NeoBundle 'https://github.com/tpope/vim-surround.git'
 NeoBundle 'https://github.com/jremmen/vim-ripgrep'
+NeoBundle 'https://github.com/pangloss/vim-javascript'
+NeoBundle 'https://github.com/martinda/Jenkinsfile-vim-syntax'
+":'<,'>B sort see http://vim.wikia.com/wiki/How_to_sort_using_visual_blocks
+NeoBundle 'https://github.com/vim-scripts/vis'
+
+" Causes window corruption?
+NeoBundle 'https://github.com/MattesGroeger/vim-bookmarks'
 call neobundle#end()
 
 " Cscope
@@ -178,7 +213,7 @@ let g:esearch = {
 
 fu! EsearchInFiles(argv) abort
   let original = g:esearch#adapter#ag#options
-  let g:esearch#adapter#ag#options = input('Search options: ')
+  let g:esearch#adapter#rg#options = input('Search options: ')
   call esearch#init(a:argv)
   let g:esearch#adapter#ag#options = original
 endfu
@@ -310,9 +345,9 @@ nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 
 function! Formatonsave()
   let l:formatdiff = 1
-  pyf /usr/share/clang/clang-format.py
+  pyf /usr/lib/llvm/5/share/clang/clang-format.py
 endfunction
-autocmd BufWritePre *.h,*.c,*.cu,*.cc,*.cpp call Formatonsave()
+autocmd BufWritePre *.h,*.c,*.cc,*.cpp call Formatonsave()
 
 " Find file in current directory and edit it.
 function! Find(name)
@@ -402,12 +437,19 @@ fun! FindChar(back, inclusive, exclusive)
   endif
 endfun
 
-let g:ackprg = 'rg --vimgrep'
+function! OpenCurrentAsNewTab()
+    let l:currentPos = getcurpos()
+    tabedit %
+    call setpos(".", l:currentPos)
+endfunction
+nmap t% :call OpenCurrentAsNewTab()<CR>
+
+" RipGrep
+let g:ackprg = 'ag --vimgrep --smart-case --glob "!perf_study/*"'
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
 cnoreabbrev ag Ack
 cnoreabbrev aG Ack
 cnoreabbrev Ag Ack
 cnoreabbrev AG Ack
-
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
 
