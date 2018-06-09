@@ -126,7 +126,8 @@ NeoBundle 'https://github.com/pangloss/vim-javascript'
 NeoBundle 'https://github.com/martinda/Jenkinsfile-vim-syntax'
 ":'<,'>B sort see http://vim.wikia.com/wiki/How_to_sort_using_visual_blocks
 NeoBundle 'https://github.com/vim-scripts/vis'
-
+NeoBundle 'https://github.com/vim-scripts/Vimball'
+NeoBundle 'https://github.com/triglav/vim-visual-increment'
 " Causes window corruption?
 NeoBundle 'https://github.com/MattesGroeger/vim-bookmarks'
 call neobundle#end()
