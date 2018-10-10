@@ -122,7 +122,10 @@ NeoBundle 'https://github.com/vim-scripts/Rename'
 NeoBundle 'https://github.com/vim-scripts/AnsiEsc.vim'
 NeoBundle 'https://github.com/tpope/vim-surround.git'
 NeoBundle 'https://github.com/jremmen/vim-ripgrep'
+" Javascript:
 NeoBundle 'https://github.com/pangloss/vim-javascript'
+NeoBundle 'https://github.com/ternjs/tern_for_vim'
+
 NeoBundle 'https://github.com/martinda/Jenkinsfile-vim-syntax'
 ":'<,'>B sort see http://vim.wikia.com/wiki/How_to_sort_using_visual_blocks
 NeoBundle 'https://github.com/vim-scripts/vis'
