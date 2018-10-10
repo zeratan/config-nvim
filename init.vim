@@ -35,15 +35,39 @@ function! MakeAndCopeConditional(target)
     redraw!
 endfunction
 
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  echo a:cmdline
+  let expanded_cmdline = a:cmdline
+  for part in split(a:cmdline, ' ')
+     if part[0] =~ '\v[%#<]'
+        let expanded_part = fnameescape(expand(part))
+        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+     endif
+  endfor
+  botright new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  call setline(1, 'You entered:    ' . a:cmdline)
+  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+  call setline(3,substitute(getline(2),'.','=','g'))
+  execute '$read !'. expanded_cmdline
+  setlocal nomodifiable
+  1
+endfunction
+
 " noremap <Leader>c <esc>:wa<CR> :call MakeAndCopeConditional("tests")<cr>
 " noremap <Leader>d <esc>:wa<CR> :call MakeAndCopeConditional("main")<cr>
 " noremap <Leader>c <esc>:wa<CR>:!cd build-test && make <CR>:cope<CR>G
 " noremap <Leader>d <esc>:wa<CR>:!cd build && make <CR>:cope<CR>G
 noremap <Leader>c <esc>:wa<CR>:make -f Makefile.user tests <bar> <CR>:cope<CR>gg/error:\\|warning:<CR><CR>
+"Command output to Vim window.
+noremap <Leader>C <esc>:Shell ./build/bin/example -f foo.txt<CR>
 noremap <Leader>d <esc>:wa<CR>:make -f Makefile.user main <bar> <CR>:cope<CR>gg/error:\\|warning:<CR><CR>
 
 "YcmCompleter
-noremap <Leader>z <esc>:YcmCompleter GoToDefinitionElseDeclaration<CR>
+noremap <Leader>z <esc>:YcmCompleter GoToDeclaration<CR>
+noremap <Leader>Z <esc>:YcmCompleter GoToDefinitionElseDeclaration<CR>
+noremap <Leader>f <esc>:YcmCompleter FixIt<CR>
 
 " Niffler
 if 0
@@ -73,6 +97,9 @@ nnoremap <Leader>ks :let @+=expand("%")<CR>
 nnoremap <Leader>kl :let @+=expand("%:p")<CR>
 
 :set wildignore+=build/**,tags
+
+" Make case-sensitive
+:set noic
 
 " Required:
 set runtimepath+=~/.nvim/bundle/neobundle.vim/
@@ -108,6 +135,8 @@ NeoBundle 'https://github.com/brookhong/cscope.vim'
 NeoBundle 'https://github.com/Shougo/vimproc.vim'
 NeoBundle 'https://github.com/Shougo/unite.vim'
 NeoBundle 'https://github.com/rstacruz/vim-fastunite'
+" watch out for ignore paths in ~/.nvim/bundle/neomru.vim/autoload/neomru.vim
+" e.g. /mnt/...
 NeoBundle 'https://github.com/Shougo/neomru.vim'
 NeoBundle 'https://github.com/Shougo/unite-outline'
 NeoBundle 'https://github.com/tsukkee/unite-tag'
@@ -115,7 +144,6 @@ NeoBundle 'https://github.com/ericcurtin/CurtineIncSw.vim'
 NeoBundle 'https://github.com/mileszs/ack.vim'
 " Slows down. Interferes with key configuration
 " NeoBundle 'https://github.com/vim-scripts/Conque-GDB'
-NeoBundle 'https://github.com/Shougo/vimproc.vim'
 NeoBundle 'https://github.com/idanarye/vim-vebugger'
 " Use :Rename <new file name>
 NeoBundle 'https://github.com/vim-scripts/Rename'
@@ -131,8 +159,13 @@ NeoBundle 'https://github.com/martinda/Jenkinsfile-vim-syntax'
 NeoBundle 'https://github.com/vim-scripts/vis'
 NeoBundle 'https://github.com/vim-scripts/Vimball'
 NeoBundle 'https://github.com/triglav/vim-visual-increment'
+
 " Causes window corruption?
+" mm - Add / Remove bookmark
+" mn - Next bookmark
+" mp - Previous bookmark
 NeoBundle 'https://github.com/MattesGroeger/vim-bookmarks'
+NeoBundle 'https://github.com/vim-syntastic/syntastic'
 call neobundle#end()
 
 " Cscope
@@ -349,8 +382,11 @@ nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 
 function! Formatonsave()
   let l:formatdiff = 1
-  pyf /usr/lib/llvm/5/share/clang/clang-format.py
+  if g:format_on_save > 0
+    pyf /usr/share/vim/addons/syntax/clang-format-6.0.py
+  endif
 endfunction
+
 autocmd BufWritePre *.h,*.c,*.cc,*.cpp call Formatonsave()
 
 " Find file in current directory and edit it.
@@ -450,10 +486,47 @@ nmap t% :call OpenCurrentAsNewTab()<CR>
 
 " RipGrep
 let g:ackprg = 'ag --vimgrep --smart-case --glob "!perf_study/*"'
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
 cnoreabbrev ag Ack
 cnoreabbrev aG Ack
 cnoreabbrev Ag Ack
 cnoreabbrev AG Ack
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+let g:format_on_save = 1
+
+" https://stackoverflow.com/questions/6593299/change-from-insert-to-normal-mode-when-switching-to-another-tab
+au BufLeave * call ModeSelectBufLeave()
+au BufEnter * call ModeSelectBufEnter()
+
+function! ModeSelectBufLeave()
+    let b:mode_select_mode = mode()
+    " A more complex addition you could make: if mode() == v, V, <C-V>, s, S, or <C-S>, store the selection and restore it in ModeSelectBufEnter
+endfunction
+
+function! ModeSelectBufEnter()
+    let l:mode = mode()
+    stopinsert  " First, go into normal mode
+    if (l:mode == "i" || l:mode == "R" || l:mode == "Rv") &&
+    \       (!exists('b:mode_select_mode') ||
+    \       b:mode_select_mode == "n" ||
+    \       b:mode_select_mode == "v" ||
+    \       b:mode_select_mode == "V" ||
+    \       b:mode_select_mode == "\<C-V>" ||
+    \       b:mode_select_mode == "s" ||
+    \       b:mode_select_mode == "S" ||
+    \       b:mode_select_mode == "\<C-S>")
+        normal l
+        " Compensate for the left cursor shift in stopinsert if going from an
+        " insert mode to a normal mode
+    endif
+    if !exists('b:mode_select_mode')
+        return
+    elseif b:mode_select_mode == "i"
+        startinsert
+    elseif b:mode_select_mode == "R"
+        startreplace
+    elseif b:mode_select_mode == "Rv"
+        startgreplace
+    endif
+endfunction
 
