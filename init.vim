@@ -159,6 +159,7 @@ NeoBundle 'https://github.com/martinda/Jenkinsfile-vim-syntax'
 NeoBundle 'https://github.com/vim-scripts/vis'
 NeoBundle 'https://github.com/vim-scripts/Vimball'
 NeoBundle 'https://github.com/triglav/vim-visual-increment'
+NeoBundle 'https://github.com/peitalin/vim-jsx-typescript'
 
 " Causes window corruption?
 " mm - Add / Remove bookmark
