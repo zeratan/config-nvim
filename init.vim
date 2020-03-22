@@ -384,7 +384,7 @@ nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 function! Formatonsave()
   let l:formatdiff = 1
   if g:format_on_save > 0
-    pyf /usr/share/vim/addons/syntax/clang-format-6.0.py
+    pyf /usr/lib/llvm/8/share/clang/clang-format.py
   endif
 endfunction
 
