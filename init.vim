@@ -388,6 +388,16 @@ function! Formatonsave()
   endif
 endfunction
 
+function StripTrailingWhitespace()
+  if !&binary && &filetype != 'diff'
+    normal mz
+    normal Hmy
+    %s/\s\+$//e
+    normal 'yz<CR>
+    normal `z
+  endif
+endfunction
+
 autocmd BufWritePre *.h,*.c,*.cc,*.cpp call Formatonsave()
 
 " Find file in current directory and edit it.
