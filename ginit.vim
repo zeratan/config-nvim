@@ -1,7 +1,7 @@
 
 :execute "GuiFont! Liberation mono:h9"
 
-let s:fontsize = 9
+let s:fontsize = 12
 function! AdjustFontSize(amount)
   let s:fontsize = s:fontsize+a:amount
   :execute "GuiFont! Liberation mono:h" . s:fontsize
