@@ -11,8 +11,8 @@ endif
 let mapleader = ","
 
 " easier moving between tabs
-noremap <Leader>n <esc>:tabprevious<CR>
-noremap <Leader>m <esc>:tabnext<CR>
+"noremap <Leader>n <esc>:tabprevious<CR>
+"noremap <Leader>m <esc>:tabnext<CR>
 noremap <Leader>t <esc>:tabe<CR>
 
 " Tab navigation like Firefox.
@@ -160,7 +160,8 @@ NeoBundle 'https://github.com/vim-scripts/vis'
 NeoBundle 'https://github.com/vim-scripts/Vimball'
 NeoBundle 'https://github.com/triglav/vim-visual-increment'
 NeoBundle 'https://github.com/peitalin/vim-jsx-typescript'
-
+NeoBundle 'https://github.com/inkarkat/vim-ingo-library'
+NeoBundle 'https://github.com/inkarkat/vim-mark'
 " Causes window corruption?
 " mm - Add / Remove bookmark
 " mn - Next bookmark
