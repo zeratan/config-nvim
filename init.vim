@@ -220,6 +220,11 @@ NeoBundleCheck
 
 autocmd VimEnter * ToggleStripWhitespaceOnSave
 
+" Restore session!
+" set sessionoptions+=resize,winpos
+" autocmd VIMEnter * :source session.vim
+" autocmd VIMLeave * :mksession! session.vim
+
 " Automatic reloading of .vimrc
 "" autocmd! bufwritepost .vimrc source %
 
