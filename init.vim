@@ -167,12 +167,19 @@ NeoBundle 'https://github.com/peitalin/vim-jsx-typescript'
 " mp - Previous bookmark
 NeoBundle 'https://github.com/MattesGroeger/vim-bookmarks'
 NeoBundle 'https://github.com/vim-syntastic/syntastic'
+NeoBundle 'https://github.com/luochen1990/rainbow'
+NeoBundle 'https://github.com/numirias/semshi'
 call neobundle#end()
 
 " Cscope
 nnoremap <leader>ca :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
 let g:cscope_silent = 1
+
+" Rainbow parentheses
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+
+let g:ycm_add_preview_to_completeopt = 0
 
 " Some optional key mappings to search directly.
 
