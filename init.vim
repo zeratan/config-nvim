@@ -383,7 +383,17 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 let g:syntastic_always_populate_loc_list = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
-
+let g:syntastic_python_checkers = ['flake8', 'pylint']
+" let g:syntastic_python_pylint_post_args="--max-line-length=120"
+" let g:syntastic_python_pep8_args = "--ignore=E501"
+" let g:syntastic_python_flake8_args = "--max-line-length=120"
+" Pylint configuration file
+" let g:pymode_lint_config = '$HOME/.pylint.rc'
+" let g:pymode_options_max_line_length=120
+" let g:syntastic_python_checker_args='--ignore=E501'
+" let g:syntastic_python_checker_args='--ignore=E501'
+" let g:syntastic_python_flake8_args='--ignore=E501 '
+let g:syntastic_python_flake8_post_args='--max-line-length=120 --ignore=E128,E225'
 " Map cuda files to c++ so that Ycm can parse
 autocmd BufNewFile,BufRead *.cu set filetype=cpp
 
