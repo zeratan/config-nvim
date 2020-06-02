@@ -172,6 +172,9 @@ NeoBundle 'https://github.com/luochen1990/rainbow'
 NeoBundle 'https://github.com/numirias/semshi'
 call neobundle#end()
 
+" vim-mark
+let g:mwDefaultHighlightingPalette = 'extended'
+
 " Cscope
 nnoremap <leader>ca :call CscopeFindInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
